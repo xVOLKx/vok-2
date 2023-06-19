@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Котики</title>
+</head>
+<body>
+  <h1>Котики</h1>
+  <div id="cat-container"></div>
+
+  <script>
+    // Загрузка данных из файла
+    fetch('File.txt')
+      .then(response => response.text())
+      .then(data => {
+        // Парсинг данных из файла
+        const catData = data.trim().substring(13);
+        const cats = JSON.parse(catData);
+
+        // Создание элементов для каждого котика
+        cats.forEach((cat) => {
+          const catDiv = document.createElement('div');
+
+          const catName = document.createElement('h2');
+          catName.innerText = cat.name;
+          catDiv.appendChild(catName);
+
+          const catImg = document.createElement('img');
+          catImg.src = cat.img_link;
+          catImg.alt = cat.name;
+          catDiv.appendChild(catImg);
+
+          const catAge = document.createElement('p');
+          catAge.innerText = `Возраст: ${cat.age} года`;
+          catDiv.appendChild(catAge);
+
+          const catRate = document.createElement('p');
+          catRate.innerText = `Рейтинг: ${cat.rate}/10`;
+          catDiv.appendChild(catRate);
+
+          const catDescription = document.createElement('p');
+          catDescription.innerText = cat.description;
+          catDiv.appendChild(catDescription);
+
+          document.getElementById('cat-container').appendChild(catDiv);
+        });
+      })
+      .catch(error => {
+        console.error('Ошибка загрузки данных:', error);
+      });
+  </script>
+</body>
+</html>
